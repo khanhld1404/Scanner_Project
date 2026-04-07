@@ -1,0 +1,47 @@
+﻿@using Manage_PocketPc.Models
+@model LoginUser
+
+@{
+    ViewData["Title"] = "Create_User";
+}
+
+<h4>Thêm user</h4>
+
+<div class="col-md-9">
+    <form asp-controller="Login" asp-action="Create">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label class="form-label">Nhập mã nhân viên:</label>
+            <input asp-for="user_code" class="form-control" />
+            <span asp-validation-for="user_code" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Nhập mật khẩu</label>
+            <!-- ĐỔI: dùng simple_password (NotMapped) -->
+            <input asp-for="SimplePassword" class="form-control" type="password" autocomplete="new-password" />
+            <span asp-validation-for="SimplePassword" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Nhập phòng ban :</label>
+            <select asp-for="department" class="form-select">
+                <option value="">-- Chọn phòng ban --</option>
+                <option value="IK">IK</option>
+                <option value="RFC">RFC</option>
+            </select>
+            <span asp-validation-for="department" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-sm fw-bold">Lưu</button>
+        <a asp-controller="Login" asp-action="Login" class="btn btn-secondary btn-sm">Quay lại</a>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,154 @@
+﻿html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+
+/* Tổng thể */
+body {
+    background-color: #f5f6fa;
+}
+
+/* Card giống ảnh: bo góc + bóng nhẹ */
+.product-card {
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(20, 20, 20, 0.06);
+}
+
+    .product-card .card-header h5 {
+        font-size: 1.05rem;
+        color: #333;
+    }
+
+/* Bảng tinh gọn */
+.table thead th {
+    font-weight: 600;
+    color: #6b7280; /* xám nhạt */
+    border-bottom-color: #eef2f7 !important;
+    background: #fafbfc;
+}
+
+.table tbody tr td {
+    vertical-align: middle;
+    border-color: #f0f3f7 !important;
+}
+
+/* Ô ảnh nhỏ */
+.thumb-box {
+    width: 38px;
+    height: 38px;
+    border: 1px dashed #e1e4ea;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+}
+
+/* Nút hành động – màu theo ảnh */
+.btn-warning.btn-sm {
+    background-color: #f5b544;
+    border-color: #f5b544;
+    color: #1f2937;
+}
+
+.btn-info.btn-sm {
+    background-color: #25b3d8;
+    border-color: #25b3d8;
+    color: #fff;
+}
+
+.btn-danger.btn-sm {
+    background-color: #ef4444;
+    border-color: #ef4444;
+}
+
+.btn-sm.fw-semibold {
+    padding: .35rem .7rem;
+    border-radius: .4rem;
+}
+
+.btn-group.gap-2 > .btn {
+    margin-right: .25rem;
+}
+
+    .btn-group.gap-2 > .btn:last-child {
+        margin-right: 0;
+    }
+
+/* Responsive nhẹ */
+@media (max-width: 992px) {
+    .table thead {
+        font-size: .9rem;
+    }
+
+    .table tbody {
+        font-size: .92rem;
+    }
+}
+
+
+
+/* Khung cuộn dọc: 10 hàng x 44px + header ~ 56px (tuỳ Bootstrap) */
+.table-scroll-y {
+    max-height: 500px; /* bạn có thể chỉnh để ~10 dòng hiển thị */
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 10px;
+}
+
+/* Sticky header để cuộn chỉ phần body */
+.ik-table thead.sticky-top th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #f8f9fa;
+}
+
+/* Bo tròn đều nút */
+.btn-rounded {
+    border-radius: 50px !important;
+}
+
+.btn-sm.btn-rounded {
+    padding: .30rem .9rem;
+    line-height: 1.2;
+}
+
+.btn-info.btn-sm {
+    background-color: #25b3d8;
+    border-color: #25b3d8;
+}
+
+.btn-danger.btn-sm {
+    background-color: #ef4444;
+    border-color: #ef4444;
+}

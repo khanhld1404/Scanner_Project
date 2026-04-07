@@ -1,0 +1,278 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BFD18553-D93A-4C0B-A76D-5116C0E27861}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Keyence_Device</RootNamespace>
+    <AssemblyName>Scan_Qr</AssemblyName>
+    <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PlatformFamilyName>WindowsCE</PlatformFamilyName>
+    <PlatformID>E2BECB1F-8C8C-41ba-B736-9BE7D946A398</PlatformID>
+    <OSVersion>5.0</OSVersion>
+    <DeployDirSuffix>Keyence_Device</DeployDirSuffix>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <NativePlatformName>Windows CE</NativePlatformName>
+    <FormFactorID>
+    </FormFactorID>
+    <ApplicationIcon>Desktop.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Windowsce.Forms" />
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=3be235df1c8d2ad3, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class\ApiClient.cs" />
+    <Compile Include="Class\Beeper.cs" />
+    <Compile Include="Class\CsvExport.cs" />
+    <Compile Include="Class\DbConfig.cs" />
+    <Compile Include="Class\InputGuard.cs">
+    </Compile>
+    <Compile Include="Class\Other_Function.cs" />
+    <Compile Include="Class\SaveData.cs" />
+    <Compile Include="ConfirmForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfirmForm.Designer.cs">
+      <DependentUpon>ConfirmForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Detail_1_RFC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Detail_1_RFC.Designer.cs">
+      <DependentUpon>Detail_1_RFC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Detail_2_IK.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Detail_2_IK.Designer.cs">
+      <DependentUpon>Detail_2_IK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Detail_2_RFC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Detail_2_RFC.Designer.cs">
+      <DependentUpon>Detail_2_RFC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Detail_3_IK.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Detail_3_IK.Designer.cs">
+      <DependentUpon>Detail_3_IK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Detail_1_IK.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Detail_1_IK.Designer.cs">
+      <DependentUpon>Detail_1_IK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Detail_3_RFC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Detail_3_RFC.Designer.cs">
+      <DependentUpon>Detail_3_RFC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Detail_4_IK.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Detail_4_IK.Designer.cs">
+      <DependentUpon>Detail_4_IK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Detail_4_RFC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Detail_4_RFC.Designer.cs">
+      <DependentUpon>Detail_4_RFC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Detail_5_IK.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Detail_5_IK.Designer.cs">
+      <DependentUpon>Detail_5_IK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Detail_5_RFC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Detail_5_RFC.Designer.cs">
+      <DependentUpon>Detail_5_RFC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Detail_6_IK.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Detail_6_IK.Designer.cs">
+      <DependentUpon>Detail_6_IK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Detail_6_RFC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Detail_6_RFC.Designer.cs">
+      <DependentUpon>Detail_6_RFC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GetLot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GetLot.Designer.cs">
+      <DependentUpon>GetLot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Class\Handle_Password.cs" />
+    <Compile Include="LoadForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadForm.Designer.cs">
+      <DependentUpon>LoadForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main_Function.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main_Function.Designer.cs">
+      <DependentUpon>Main_Function.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MultilineButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="ProgramInfor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProgramInfor.Designer.cs">
+      <DependentUpon>ProgramInfor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ConfirmForm.resx">
+      <DependentUpon>ConfirmForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Detail_1_RFC.resx">
+      <DependentUpon>Detail_1_RFC.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Detail_2_IK.resx">
+      <DependentUpon>Detail_2_IK.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Detail_2_RFC.resx">
+      <DependentUpon>Detail_2_RFC.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Detail_3_IK.resx">
+      <DependentUpon>Detail_3_IK.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Detail_1_IK.resx">
+      <DependentUpon>Detail_1_IK.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Detail_4_RFC.resx">
+      <DependentUpon>Detail_4_RFC.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Detail_5_RFC.resx">
+      <DependentUpon>Detail_5_RFC.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Detail_6_RFC.resx">
+      <DependentUpon>Detail_6_RFC.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GetLot.resx">
+      <DependentUpon>GetLot.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoadForm.resx">
+      <DependentUpon>LoadForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main_Function.resx">
+      <DependentUpon>Main_Function.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgramInfor.resx">
+      <DependentUpon>ProgramInfor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubMenu.resx">
+      <DependentUpon>SubMenu.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Class\Sound_Function.cs" />
+    <Compile Include="SubMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubMenu.Designer.cs">
+      <DependentUpon>SubMenu.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Desktop.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}">
+        <HostingProcess disable="1" />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

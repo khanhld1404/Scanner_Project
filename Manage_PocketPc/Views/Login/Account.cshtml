@@ -1,0 +1,123 @@
+﻿@{
+    Layout = null;  // vô hiệu hóa layout cho riêng view này
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - Đăng nhập</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .auth-container {
+            background: white;
+            padding: 30px 35px;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #0078ff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+            button:hover {
+                background: #005fcc;
+            }
+
+        /* Chống trình duyệt autofill */
+        input:-webkit-autofill {
+            box-shadow: 0 0 0px 1000px white inset !important;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="auth-container">
+
+        <h1>Đăng nhập</h1>
+
+        <form method="post" asp-controller="Login" asp-action="AccountLogin" autocomplete="off">
+
+            <!-- Input giả chống autofill -->
+            <input type="text" name="fakeuser" style="display:none">
+            <input type="password" name="fakepass" style="display:none">
+
+            <label for="UserCode">Mã nhân viên</label>
+            <input id="UserCode" name="UserCode" autocomplete="off" />
+
+            <label for="Password">Mật khẩu</label>
+            <input id="Password" name="Password" type="password" autocomplete="new-password" />
+
+            <button type="submit">Đăng nhập</button>
+        </form>
+
+    </main>
+</body>
+</html>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    (function() {
+      const text_error  = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["error"] ?? ""));
+      const text_success = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["success"] ?? ""));
+      if (text_error.trim() != '') {
+        Swal.fire({
+          icon: 'warning', //success, error, warning, info, question
+          title: "Cảnh báo",
+          text: text_error,
+          confirmButtonText: 'OK'
+        });
+      }else if (text_success.trim() != '') {
+        Swal.fire({
+          icon: 'success', // success, error, warning, info, question
+          title: "Thông báo",
+          text: text_success,
+          confirmButtonText: 'OK'
+        });
+      }
+    })();
+</script>

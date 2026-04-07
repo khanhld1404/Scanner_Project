@@ -1,0 +1,36 @@
+﻿@using Manage_PocketPc.Models;
+@model UpdateHistory
+
+@{
+    ViewData["Title"] = "Create_History";
+}
+
+<h4>Thêm phiên bản mới</h4>
+
+<div class="col-md-9">
+    <form asp-controller="History" asp-action="Create">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label class="form-label">Nhập người cập nhật:</label>
+            <input asp-for="Person" class="form-control" />
+            <span asp-validation-for="Person" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Nhập mô tả:</label>
+            <input asp-for="Contents" class="form-control" />
+            <span asp-validation-for="Contents" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-sm fw-bold">Lưu</button>
+        <a asp-controller="History" asp-action="Index" class="btn btn-secondary btn-sm">Quay lại</a>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

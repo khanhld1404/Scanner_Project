@@ -1,0 +1,33 @@
+﻿@using Manage_PocketPc.Models
+@model IK
+
+@{
+    ViewData["Title"] = "Create_IK";
+}
+
+<h4>Thêm IK</h4>
+
+<div class="col-md-9">
+    <form asp-controller="IK" asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label class="form-label">Nhập AN</label>
+            <input asp-for="an" class="form-control" />
+            <span asp-validation-for="an" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Nhập Product</label>
+            <input asp-for="product" class="form-control" />
+            <span asp-validation-for="product" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-sm fw-bold">Lưu</button>
+        <a asp-controller="IK" asp-action="IK" class="btn btn-secondary btn-sm">Quay lại</a>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

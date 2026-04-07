@@ -1,0 +1,89 @@
+﻿@using Manage_PocketPc.Models
+@model IEnumerable<ScanDatum>
+
+@{
+    ViewData["Title"] = "Scan";
+}
+<div class="p-3">
+    <div class="d-flex align-items-center justify-content-between gap-2">
+        <a asp-controller="Scan"
+           asp-action="RunImport"
+           class="btn btn-success btn-sm text-white fw-bold btn-rounded">
+            Cập nhật dữ liệu
+        </a>
+
+        <div class="input-group" style="max-width: 420px;">
+            <form method="post" asp-controller="Scan" asp-action="Search" class="d-flex w-100">
+                <input type="text" class="form-control form-control-sm me-2" style="width:110px;"
+                       placeholder="Mã nhân viên" name="UserCode" value="@(ViewBag.UserScan ?? "")">
+
+                <input type="text" class="form-control form-control-sm me-2" style="width:100px;"
+                       placeholder="Mã master" name="MasterCode" value="@(ViewBag.MasterScan ?? "")">
+
+                <input type="text" class="form-control form-control-sm me-2" style="width:100px;"
+                       placeholder="Mã máy" name="DeviceNumber" value="@(ViewBag.DeviceScan ?? "")">
+
+                <button class="btn btn-primary btn-sm text-white fw-bold" type="submit">Tìm kiếm</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="card product-card shadow-sm border-0">
+    <div class="card-header bg-white border-0 py-3">
+        <h5 class="mb-0 fw-semibold">Danh Sách Dữ liệu quét mã</h5>
+    </div>
+
+    <div class="card-body pt-0">
+        <!-- Khung cuộn dọc -->
+        <div class="table-scroll-y">
+            <table class="table table-hover align-middle mb-0 ik-table">
+                <thead class="table-light sticky-top">
+                    <tr>
+                        <th style="min-width:100px;">Mã nhân viên</th>
+                        <th style="min-width:100px;">Bộ phận</th>
+                        <th style="min-width:100px;">Mã master</th>
+                        <th style="min-width:100px;">Số lần OK</th>
+                        <th style="min-width:100px;">Số lần NG</th>
+                        <th style="min-width:100px;">Mã máy</th>
+                        <th style="min-width:100px;">Thời gian quét</th>
+                        <th style="width:120px;" class="text-center">CHỨC NĂNG</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        foreach (var p in Model)
+                        {
+                            <tr>
+                                <td>@p.User_code</td>
+                                <td>@p.Department</td>
+                                <td>@p.Master_code</td>
+                                <td>@p.OK_count</td>
+                                <td>@p.NG_count</td>
+                                <td>@p.DeviceNumber</td>
+                                <td>@p.CreatedAt.ToString()</td>
+                                <td class="text-center">
+                                    <div class="d-inline-flex align-items-center gap-2">
+                                        <form id="delete_@p.Id"
+                                              asp-controller="Scan"
+                                              asp-action="Delete"
+                                              method="post"
+                                              class="d-inline">
+                                            <input type="hidden" name="Id" value="@p.Id" />
+                                            <button type="button"
+                                                    class="btn btn-danger btn-sm text-white fw-bold btn-rounded"
+                                                    onclick="confirmDelete('delete_@p.Id')">
+                                                Xóa
+                                            </button>
+                                        </form>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

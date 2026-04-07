@@ -1,0 +1,61 @@
+﻿@using Manage_PocketPc.Models;
+@model IEnumerable<UpdateHistory>
+
+@{
+    ViewData["Title"] = "Search_history";
+}
+
+<div class="p-3">
+    <div class="d-flex align-items-center justify-content-between gap-2">
+
+        <form id="formCreate" asp-controller="History" asp-action="Create" method="post" class="d-inline">
+            <button type="button" id="btnCreate" class="btn btn-success btn-sm text-white fw-bold btn-rounded">
+                Tạo phiên bản mới
+            </button>
+        </form>
+        <div class="input-group" style="max-width: 420px;">
+            <form method="post" asp-controller="History" asp-action="Search" class="d-flex w-100">
+                <input type="text" class="form-control form-control-sm me-2" style="width :150px;" placeholder="Nhập phiên bản..." name="tt1" value="@ViewBag.Version">
+                <input type="text" class="form-control form-control-sm me-2" style="width :150px;" placeholder="Nhập tên..." name="tt2" value="@ViewBag.Person">
+                <button class="btn btn-primary btn-sm text-white fw-bold" type="submit">
+                    Tìm kiếm
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="card product-card shadow-sm border-0">
+    <div class="card-header bg-white border-0 py-3">
+        <h5 class="mb-0 fw-semibold">Danh Sách Kết Nối</h5>
+    </div>
+
+    <div class="card-body pt-0">
+        <!-- Khung cuộn dọc -->
+        <div class="table-scroll-y">
+            <table class="table table-hover align-middle mb-0 ik-table">
+                <thead class="table-light sticky-top">
+                    <tr>
+                        <th style="min-width:140px;">Phiên bản</th>
+                        <th style="min-width:140px;">Người cập nhật</th>
+                        <th style="min-width:200px;">Thời gian cập nhật</th>
+                        <th style="width:220px;" class="text-center">Mô tả</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        foreach (var p in Model)
+                        {
+                            <tr>
+                                <td>@p.Version</td>
+                                <td>@p.Person</td>
+                                <td>@p.Time</td>
+                                <td>@p.Contents</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>  

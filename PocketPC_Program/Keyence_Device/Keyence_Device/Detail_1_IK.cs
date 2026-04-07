@@ -1,0 +1,441 @@
+﻿using System;
+using System.Data;
+using System.Windows.Forms;
+using System.Text;
+using System.Data.SqlServerCe;
+using System.IO;
+using Keyence_Device.Class;
+using System.Threading;
+namespace Keyence_Device
+{
+    public partial class Detail_1_IK : Form
+    {
+        // Biến lưu mã nhân viên sử dụng
+        private string user_code;
+
+        public Detail_1_IK(string tt)
+        {
+            InitializeComponent();
+            this.KeyPreview = true;
+            user_code = tt;
+        }
+        // Xử lý viêc hiển thị thông tin ban đầu
+        private void Detail_Function_Load(object sender, EventArgs e)
+        {
+            // Nạp dữ liệu mẫu
+            var dt = new DataTable("Details");
+            dt.Columns.Add("Ma", typeof(string));
+            dt.Columns.Add("Content", typeof(string));
+            dt.Columns.Add("Result", typeof(string));
+
+            Data_Pocket.DataSource = dt;
+
+        }
+        // Xử lý chức năng Thoát 
+        private void btn_Return_Click(object sender, EventArgs e)
+        {
+            try {
+                using (var cf = new ConfirmForm("Xác nhận quay lại", "Bạn có chắc muốn thoát!"))
+                {
+                    if (cf.ShowDialog() == DialogResult.OK)
+                    {
+                        // TẮT NHẬN BARCODE NGAY
+
+                        _isClosing = true;                 // <-- quan trọng
+                        this.KeyPreview = false;
+
+
+                        if (_scanTimeoutTimer != null)
+                        {
+                            _scanTimeoutTimer.Enabled = false;   // <- thay cho Stop()
+                            _scanTimeoutTimer.Tick -= ScanTick;  // tháo handler
+                            _scanTimeoutTimer.Dispose();         // giải phóng
+                            _scanTimeoutTimer = null;
+                        }
+
+                        _scanBuffer.Length = 0;
+
+                        InputGuard.DrainInputQueue();
+                        InputGuard.SuppressForMs(600);
+
+
+                        this.Close();
+                        if (master_check == true && tmp_master != "")
+                        {
+                            // Lưu thông tin vào file 
+                            SaveData.Save(user_code, "IK", an_infor, ok_count, ng_count);
+                        }
+                    }
+                }
+            }catch(Exception ex){
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+        //Xử lý việc quét mã vạch
+
+        // Field của form
+        private bool _isClosing = false; 
+        private StringBuilder _scanBuffer = new StringBuilder(128); //Biến để nhận giá trị quét mã
+        private System.Windows.Forms.Timer _scanTimeoutTimer;
+        private const int SCAN_TIMEOUT_MS = 50;    // khoảng trống > 50–100ms coi như xong một lần quét
+        //Biến để biết có đọc lại master không
+        private bool master_check = true;
+
+        // Các giá được tách ra từ mã vạch
+        //Biến chứa thông tin master mã
+        string exp, lot,pi,cd,an,qr_infor;
+        //Biến chứa thông tin mã cần kiểm tra
+        string exp_product, lot_product, pi_product, cd_product, an_product;
+        //biến lưu kết quả kiểm tra
+        string exp_result, lot_result, pi_result, cd_result, an_result;
+        //biến để lưu các thông tin biến ở trên sau khi được xử lý
+        string pi_infor, exp_infor,an_infor;
+        //Biến đêm số lượng ok và ng
+        int ok_count = 0;
+        int ng_count = 0;
+
+        // Biến để lưu giá trị master code
+        string tmp_master = "";
+
+        // Xử lý quét mã
+        // Đổi Tick handler sang method đặt tên để có thể tháo gỡ
+        private void EnsureScanTimer()
+        {
+            if (_scanTimeoutTimer == null)
+            {
+                _scanTimeoutTimer = new System.Windows.Forms.Timer();
+                _scanTimeoutTimer.Interval = SCAN_TIMEOUT_MS;
+                _scanTimeoutTimer.Tick += ScanTick;   // <-- dùng handler riêng
+            }
+        }
+
+        private void ScanTick(object s, EventArgs e)
+        {
+            if (_isClosing) return;                  // <-- đang đóng thì bỏ qua
+            _scanTimeoutTimer.Enabled = false;
+            if (_scanBuffer.Length > 0)
+            {
+                HandleScannedCode(_scanBuffer.ToString());
+                _scanBuffer.Length = 0;
+            }
+        }
+
+        protected override void OnKeyPress(KeyPressEventArgs e)
+        {
+            if (_isClosing) { e.Handled = true; return; }  // <-- đang đóng thì nuốt phím
+
+            base.OnKeyPress(e);
+            EnsureScanTimer();
+
+            char ch = e.KeyChar;
+            if (ch == '\r' || ch == '\n' || ch == '\t')
+            {
+                _scanTimeoutTimer.Enabled = false;
+                string code = _scanBuffer.ToString();
+                _scanBuffer.Length = 0;
+
+                if (code.Length > 0)
+                {
+                    e.Handled = true;
+                    HandleScannedCode(code);
+                }
+                return;
+            }
+
+            if (!char.IsControl(ch))
+            {
+                _scanBuffer.Append(ch);
+                _scanTimeoutTimer.Enabled = false;
+                _scanTimeoutTimer.Enabled = true;
+                e.Handled = true;
+            }
+        }
+
+
+        //Hàm xử lý mã vạch sau khi đã được quét
+        private void HandleScannedCode(string code)
+        {
+            // (Tùy bạn) lọc/trim
+            code = code.Trim('\r', '\n', (char)0x0A, (char)0x0D);
+
+
+            //Thiết lập bảng hiển thị thông tin
+            var dt = new DataTable("Details");
+            dt.Columns.Add("Ma", typeof(string));
+            dt.Columns.Add("Content", typeof(string));
+            dt.Columns.Add("Result", typeof(string));
+
+            // Kiểm tra mã để substrong không bị lỗi
+            if (code.Length <= 32 || code.Length >= 36)
+            {
+                txt_infor.Text = "Mã vạch: " + code + @" không hợp lệ. 
+Hãy nhập mã vạch khác!";
+                Beeper.Error();
+                txt_infor.ForeColor = System.Drawing.Color.Orange;
+
+                return;
+            }
+
+            if (master_check)
+            {
+
+                //Đọc dữ liệu qr master
+                qr_infor = code;
+                pi = code.Substring(2,1);
+                an = code.Substring(3,12);
+                cd = code.Substring(15,1);
+                exp = code.Substring(18, 6);
+                lot = code.Substring(26);
+
+                if (an != tmp_master && tmp_master != "") {
+
+                    // Lưu thông tin vào file 
+                    SaveData.Save(user_code, "IK", an_infor, ok_count, ng_count);
+
+                    ok_count = 0;
+                    ng_count = 0;
+                    lab_ok.Text = ok_count.ToString();
+                    lab_ng.Text = ng_count.ToString();
+                }
+                // Kiểm tra mã vạch có trong master không
+                if (!check_QR(an))
+                {
+                    txt_infor.Text = @"Nhãn master chưa được đăng ký!. 
+Hãy nhập nhãn master khác!";
+                    txt_infor.ForeColor = System.Drawing.Color.Orange;
+
+                    Beeper.Error();
+
+                    // cho lại tmp_master bằng rỗng để không chạy lại
+                    tmp_master = "";
+                    return;
+                }
+                // Cần phải cho nó phía  dưới phần kiểm tra mã vạch vì nó nếu không thuộc thì tmp_master != ""
+                // Từ đó chạy được save (Nếu quét lần đầu mà qr chưa đăng ký mà thoát luôn thì sẽ báo lỗi do chưa có an_infor)
+                tmp_master = an;
+                //Xử lý thông tin pi
+                if (pi == "0")
+                {
+                    pi_infor = "Túi Đóng Gói";
+                }
+                else if (pi == "3")
+                {
+                    pi_infor = "Hộp Đơn Vị";
+                }
+                else if (pi == "5")
+                {
+                    pi_infor = "Thùng Xuất Xưởng";
+                }
+                else {
+                    pi_infor = pi;
+                }
+
+                // Xử lý thông tin exp
+                string year = exp.Substring(0,2);
+                string month = exp.Substring(2,2);
+                string day = exp.Substring(4, 2);
+
+                // Ai sau này bị lỗi về thời gian thì chỉnh ở đây thay 20 bằng 30 là được (Khánh người của năm 2026)
+                exp_infor = "20" + year + "-" + month + "-" + day;
+
+                // Xử lý thông tin an
+                an_infor = GetInfor(an);
+
+                //Đưa kết quả lên bảng
+                dt.Rows.Add("PI", pi_infor, "OK");
+                dt.Rows.Add("AN", an_infor, "OK");
+                dt.Rows.Add("CD", cd, "OK");
+                dt.Rows.Add("EXP", exp_infor, "OK");
+                dt.Rows.Add("LOT", lot, "OK");
+                Data_Pocket.DataSource = dt;
+
+                txt_infor.Text = @"Nhãn Master đã được đăng ký!
+Thực hiện đọc nhãn cần kiểm tra.
+                ";
+
+                // test âm thanh ik
+                Beeper.Success();
+
+                txt_infor.ForeColor = System.Drawing.Color.Black;
+
+                master_check = false;
+            }
+            else {
+                // Đọc các giá  trị quét qr sản phẩm
+                pi_product = code.Substring(2, 1);
+                an_product = code.Substring(3, 12);
+                cd_product = code.Substring(15, 1);
+                exp_product = code.Substring(18, 6);
+                lot_product = code.Substring(26);
+
+                //Đưa bảng về rỗng
+                Data_Pocket.DataSource = null;
+
+                //Đọc lại nhãn master
+                master_check = true;
+
+                if (an_product == an && exp_product == exp && lot_product == lot)
+                {
+                    txt_infor.Text = @"Mã vạch khớp với nhãn master!
+Hãy đọc lại nhãn master
+                    ";
+                    Beeper.Success();
+
+                    txt_infor.ForeColor = System.Drawing.Color.Lime;
+
+                    // Cộng một vào giá trị Okkk
+                    ok_count += 1;
+                    lab_ok.Text = ok_count.ToString();
+                }
+                else {
+                    txt_infor.Text = @"Mã vạch không khớp với nhãn master! 
+Hãy đọc lại nhãn master";
+                    Beeper.Error();
+
+                    txt_infor.ForeColor = System.Drawing.Color.Red;
+                    ng_count += 1;
+                    lab_ng.Text = ng_count.ToString();
+                }
+
+                //Kiểm tra và so sánh mã sản phẩm cần quét và master
+                if (pi_product == pi)
+                {
+                    pi_result = " = ";
+                }else{
+                    pi_result = " # ";
+                }
+
+                if (an_product == an)
+                {
+                    an_result = " = ";
+                }
+                else
+                {
+                    an_result = " # ";
+                }
+
+                if (cd_product == cd)
+                {
+                    cd_result = " = ";
+                }
+                else
+                {
+                    cd_result = " # ";
+                }
+
+                if (exp_product == exp)
+                {
+                    exp_result = " = ";
+                }
+                else
+                {
+                    exp_result = " # ";
+                }
+
+                if (lot_product == lot)
+                {
+                    lot_result = " = ";
+                }
+                else
+                {
+                    lot_result = " # ";
+                }
+                //Đưa kết quả lên bảng
+                dt.Rows.Add("PI", pi_infor, pi_result);
+                dt.Rows.Add("AN", an_infor, an_result);
+                dt.Rows.Add("CD", cd, cd_result);
+                dt.Rows.Add("EXP", exp_infor, exp_result);
+                dt.Rows.Add("LOT", lot, lot_result);
+                Data_Pocket.DataSource = dt;
+            }
+        }
+
+        //Hàm kiểm tra mã có trong master không
+        public bool check_QR(string qr)
+        {
+            try {
+                using (var conn = new SqlCeConnection(DbConfig._connect))
+                {
+                    conn.Open();
+                    string sql = @"SELECT CASE WHEN EXISTS 
+                         (SELECT 1 FROM IK WHERE an = @qr) 
+                        THEN 1 ELSE 0 END";
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        // delete theo QR
+                        cmd.CommandText = sql;
+                        var p = cmd.Parameters.Add("@qr", SqlDbType.NVarChar);
+                        p.Value = qr;
+                        object scalar = cmd.ExecuteScalar();
+                        int result = Convert.ToInt32(scalar);
+                        if (result == 1)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                };   
+            }
+            catch (SqlCeException ex)
+            {
+                // TODO: log ex (File/EventLog/Telemetry). Tránh MessageBox ở đây nếu là tầng DAL.
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // TODO: log ex
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
+
+        // Hàm lấy thông tin product từ an
+        public string GetInfor(string tt)
+        {
+            try
+            {
+                using (var conn = new SqlCeConnection(DbConfig._connect))
+                {
+                    conn.Open();
+                    string sql = @"
+                            SELECT product
+                            FROM IK
+                            WHERE an = @tt";
+
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = sql;
+                        var p = cmd.Parameters.Add("@tt", SqlDbType.NVarChar);
+                        p.Value = tt.Trim();
+
+                        object result = cmd.ExecuteScalar();
+
+                        if (result == null || result == DBNull.Value)
+                            return null;
+
+                        // Ép kiểu an toàn
+                        return Convert.ToString(result);
+                    }
+                }
+            }
+            catch (SqlCeException ex)
+            {
+                // TODO: log ex (File/EventLog/Telemetry). Tránh MessageBox ở đây nếu là tầng DAL.
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                // TODO: log ex
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+        }
+    }
+}

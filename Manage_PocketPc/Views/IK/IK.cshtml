@@ -1,0 +1,80 @@
+﻿@using Manage_PocketPc.Models
+@model IEnumerable<IK>
+
+@{
+    ViewData["Title"] = "IK";
+}
+<div class="p-3">
+    <div class="d-flex align-items-center justify-content-between gap-2">
+        <a asp-controller="IK"
+           asp-action="Create"
+           class="btn btn-success btn-sm text-white fw-bold btn-rounded">
+            Thêm IK
+        </a>
+
+        <div class="input-group" style="max-width: 420px;">
+            <form method="post" asp-controller="IK" asp-action="Search_IK" class="d-flex w-100">
+                <input type="text" class="form-control form-control-sm me-2" style="width :150px;" placeholder="Nhập an..." name="AN_Search" value="">
+                <input type="text" class="form-control form-control-sm me-2" style="width :150px;" placeholder="Nhập product..." name="Product_Search" value="">
+                <button class="btn btn-primary btn-sm text-white fw-bold" type="submit">
+                    Tìm kiếm
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="card product-card shadow-sm border-0">
+    <div class="card-header bg-white border-0 py-3">
+        <h5 class="mb-0 fw-semibold">Danh Sách Dữ liệu IK</h5>
+    </div>
+
+    <div class="card-body pt-0">
+        <!-- Khung cuộn dọc -->
+        <div class="table-scroll-y">
+            <table class="table table-hover align-middle mb-0 ik-table">
+                <thead class="table-light sticky-top">
+                    <tr>
+                        <th style="min-width:140px;">AN</th>
+                        <th style="min-width:200px;">PRODUCT</th>
+                        <th style="width:220px;" class="text-center">CHỨC NĂNG</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        foreach (var p in Model)   
+                        {
+                            <tr>
+                                <td>@p.an</td>
+                                <td>@p.product</td>
+                                <td class="text-center">
+                                    <div class="d-inline-flex align-items-center gap-2">
+                                        <a asp-controller="IK"
+                                           asp-action="Update"
+                                           asp-route-product="@p.product"
+                                           class="btn btn-info btn-sm text-white fw-bold btn-rounded">
+                                            Sửa
+                                        </a>
+                                        <form id="delete_@p.product"
+                                              asp-controller="IK"
+                                              asp-action="Delete_IK"
+                                              method="post"
+                                              class="d-inline">
+                                            <input type="hidden" name="product" value="@p.product" />
+                                            <button type="button"
+                                                    class="btn btn-danger btn-sm text-white fw-bold btn-rounded"
+                                                    onclick="confirmDelete('delete_@p.product')">
+                                                Xóa
+                                            </button>
+                                        </form>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

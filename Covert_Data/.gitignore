@@ -1,0 +1,75 @@
+# ============================
+# Visual Studio / .NET
+# ============================
+
+## Build results
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+
+## Visual Studio cache/options
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Rider
+.idea/
+*.sln.iml
+
+# ============================
+# .NET / C#
+# ============================
+
+## NuGet packages
+*.nupkg
+# Uncomment if you don't want NuGet packages
+# packages/
+
+## Dotnet tools
+.dotnet/
+
+## ASP.NET Core (safe to ignore even for console)
+wwwroot/
+
+# ============================
+# Logs / runtime
+# ============================
+
+*.log
+*.tmp
+*.temp
+
+# ============================
+# Environment / config
+# ============================
+
+.env
+.env.*
+appsettings.Development.json
+appsettings.Local.json
+
+# ============================
+# OS files
+# ============================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# ============================
+# IDE backups
+# ============================
+
+*.bak
+*.orig
+*.old
