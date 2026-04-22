@@ -84,7 +84,7 @@ namespace Keyence_Device
         private bool _isClosing = false;
         private StringBuilder _scanBuffer = new StringBuilder(128); //Biến để nhận giá trị quét mã
         private Timer _scanTimeoutTimer;
-        private const int SCAN_TIMEOUT_MS = 50;    // khoảng trống > 50–100ms coi như xong một lần quét
+        private const int SCAN_TIMEOUT_MS = 100;    // khoảng trống > 50–100ms coi như xong một lần quét
 
         // Biến kiểm tra có cần quét lại mã master không
         public bool master_check = true;
@@ -256,12 +256,12 @@ Thực hiện đọc nhãn cần kiểm tra.
                 //Đưa bảng về rỗng
                 Data_Pocket.DataSource = null;
 
-                if (an_product == an)
+                if (an_product == an && pi_product == pi && lot_product == lot)
                 {
                     txt_infor.Text = @"Mã vạch khớp với nhãn master!
 Hãy tiếp tục đọc nhãn để kiểm tra
                     ";
-                    Beeper.Success();
+                    Beeper.Success2();
                     normal_status();
                     txt_infor.ForeColor = System.Drawing.Color.Lime;
 

@@ -282,11 +282,11 @@ Nhấn xác nhận để thực hiệc việc đọc nhãn cần kiểm tra.
                 //Đưa bảng về rỗng
                 Data_Pocket.DataSource = null;
 
-                if (an_product == an)
+                if (an_product == an && lot_product == lot)
                 {
                     txt_infor.Text = @"Mã vạch khớp với nhãn master!
 Hãy tiếp tục đọc các mã khác để kiểm tra: ";
-                    Beeper.Success();
+                    Beeper.Success2();
 
                     txt_infor.ForeColor = System.Drawing.Color.Lime;
 

@@ -147,6 +147,7 @@
             this.Controls.Add(this.btn_fun_4);
             this.Controls.Add(this.btn_fun_7);
             this.Name = "Main_Function";
+            this.Text = "xác";
             this.ResumeLayout(false);
 
         }

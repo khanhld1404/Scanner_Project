@@ -30,7 +30,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Login">Quản lý tài khoản</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Connect" asp-action="Index">Quản lý kết nối</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Connect" asp-action="Index">Kết nối dữ liệu</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="History" asp-action="Index">Quản lý phiên bản</a>
@@ -127,6 +127,89 @@
             }
         });
     </script>
+
+
+    <script>
+        // Xử lý việc cho phép khi nhập file được nhập nhiều file cùng lúc cũng như được hiển thị thông tin ra
+        const fileInput = document.getElementById("fileInput");
+        const fileNameDiv = document.getElementById("fileName");
+        const form = document.getElementById("formCreate");
+
+        let selectedFiles = [];
+
+        fileInput.addEventListener("change", function () {
+            for (let file of this.files) {
+                if (!selectedFiles.some(f => f.name === file.name && f.size === file.size)) {
+                    selectedFiles.push(file);
+                }
+            }
+            renderFileList();
+            this.value = "";
+        });
+
+        function renderFileList() {
+            if (selectedFiles.length === 0) {
+                fileNameDiv.innerHTML = "";
+                return;
+            }
+
+            let html = "<ul class='mb-0'>";
+            selectedFiles.forEach((file, index) => {
+                let sizeKB = (file.size / 1024).toFixed(1);
+                html += `
+                    <li>
+                        ${file.name} (${sizeKB} KB)
+                        <button type="button" class="btn btn-sm btn-link text-danger"
+                                onclick="removeFile(${index})">✕</button>
+                    </li>`;
+            });
+            html += "</ul>";
+            fileNameDiv.innerHTML = html;
+        }
+
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            renderFileList();
+        }
+
+        // ===== SUBMIT FORM =====
+        // Xử lý việc uploadfile lên thư mục kết hợp với controller
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            let formData = new FormData(form);
+
+            selectedFiles.forEach(file => {
+                formData.append("uploadFiles", file);
+            });
+
+            const token = document.querySelector(
+                'input[name="__RequestVerificationToken"]'
+            ).value;
+
+            fetch("/History/Create", {
+                method: "POST",
+                headers: {
+                    "RequestVerificationToken": token
+                },
+                body: formData
+            })
+            .then(res => {
+                if (!res.ok) {
+                    return res.text().then(t => { throw new Error(t); });
+                }
+                return res.text();
+            })
+            .then(msg => {
+                alert(msg);
+                window.location.href = "/History/Index";
+            })
+            .catch(err => {
+                alert(err.message); // ❗ hiện lỗi khi thiếu dữ liệu
+            });
+        });
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
     @section Scripts {

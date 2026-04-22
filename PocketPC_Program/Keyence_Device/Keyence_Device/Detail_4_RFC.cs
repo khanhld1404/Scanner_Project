@@ -285,7 +285,7 @@ Nhấn xác nhận để thực hiệc việc đọc nhãn cần kiểm tra.
                 {
                     txt_infor.Text = @"Mã vạch khớp với nhãn master!
 Hãy tiếp tục đọc nhãn để kiểm tra: ";
-                    Beeper.Success();
+                    Beeper.Success2();
                     ok_count += 1;
                     lab_ok.Text = ok_count.ToString();
                 }

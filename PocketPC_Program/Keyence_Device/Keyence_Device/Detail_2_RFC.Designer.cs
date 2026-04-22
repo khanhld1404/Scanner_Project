@@ -40,6 +40,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lab_ok = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.btn_new = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Data_Pocket
@@ -101,7 +102,7 @@
             // 
             this.btn_Return.BackColor = System.Drawing.Color.Aqua;
             this.btn_Return.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
-            this.btn_Return.Location = new System.Drawing.Point(85, 260);
+            this.btn_Return.Location = new System.Drawing.Point(7, 260);
             this.btn_Return.Name = "btn_Return";
             this.btn_Return.Size = new System.Drawing.Size(72, 20);
             this.btn_Return.TabIndex = 9;
@@ -156,12 +157,25 @@
             this.label1.Size = new System.Drawing.Size(44, 20);
             this.label1.Text = "OK :";
             // 
+            // btn_new
+            // 
+            this.btn_new.BackColor = System.Drawing.Color.Aqua;
+            this.btn_new.Enabled = false;
+            this.btn_new.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            this.btn_new.Location = new System.Drawing.Point(85, 260);
+            this.btn_new.Name = "btn_new";
+            this.btn_new.Size = new System.Drawing.Size(72, 20);
+            this.btn_new.TabIndex = 16;
+            this.btn_new.Text = "Làm mới";
+            this.btn_new.Click += new System.EventHandler(this.btn_new_Click);
+            // 
             // Detail_2_RFC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(238, 295);
+            this.Controls.Add(this.btn_new);
             this.Controls.Add(this.lab_ng);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lab_ok);
@@ -191,5 +205,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lab_ok;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btn_new;
     }
 }

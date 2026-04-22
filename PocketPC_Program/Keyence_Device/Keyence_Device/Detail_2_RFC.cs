@@ -73,7 +73,7 @@ namespace Keyence_Device
                     InputGuard.SuppressForMs(600);
 
                     this.Close();
-                    if (qr_check)
+                    if (!master_check)
                     {
                         // Lưu thông tin vào file 
                         SaveData.Save(user_code, "RFC", an_infor, ok_count, ng_count);
@@ -88,11 +88,9 @@ namespace Keyence_Device
         private bool _isClosing = false; 
         private StringBuilder _scanBuffer = new StringBuilder(128); //Biến để nhận giá trị quét mã
         private Timer _scanTimeoutTimer;
-        private const int SCAN_TIMEOUT_MS = 50;    // khoảng trống > 50–100ms coi như xong một lần quét
+        private const int SCAN_TIMEOUT_MS = 100;    // khoảng trống > 50–100ms coi như xong một lần quét
         //Biến để biết có đọc lại master không
         private bool master_check = true;
-        // Biến để xác định đã quét mã sau khi đã quét master hay chưa
-        private bool qr_check = false;
 
         // Các giá được tách ra từ mã vạch
         //Biến chứa thông tin master mã
@@ -190,6 +188,7 @@ Hãy nhập mã vạch khác!";
 
                 // Mở lại các nút chức năng sau khi đã quét
                 btn_confirm.Enabled = true;
+                btn_new.Enabled = true;
 
                 //Đọc dữ liệu qr master
                 qr_infor = code;
@@ -257,8 +256,6 @@ Nhấn xác nhận để thực hiệc việc đọc nhãn cần kiểm tra.
             }
             else
             {
-                // Chỉnh là qr_check khi đã quét tt qr để so với master
-                qr_check = true;
                 // Đọc các giá  trị quét qr sản phẩm
                 pi_product = code.Substring(2, 1);
                 an_product = code.Substring(3, 12);
@@ -269,11 +266,11 @@ Nhấn xác nhận để thực hiệc việc đọc nhãn cần kiểm tra.
                 //Đưa bảng về rỗng
                 Data_Pocket.DataSource = null;
 
-                if (an_product == an)
+                if (an_product == an && pi_product == pi && lot_product == lot)
                 {
                     txt_infor.Text = @"Mã vạch khớp với nhãn master!
-Hãy tiếp tục đọc các mã khác để kiểm tra: ";
-                    Beeper.Success();
+Nhấn tiếp tục để đọc các mã khác kiểm tra: ";
+                    Beeper.Success2();
 
                     txt_infor.ForeColor = System.Drawing.Color.Lime;
 
@@ -457,31 +454,30 @@ hãy bắt đầu việc quét mã";
             }
             else
             {
-                continue_scan();
+                normal_status();
+                this.KeyPreview = true;
+                btn_confirm.Enabled = false;
+                btn_confirm.Text = "Xác nhận";
+                txt_infor.Text = @"Mời bạn đọc nhãn tiếp!";
             }
         }
 
         // Tiếp tục đọc nhãn master
-        private void continue_scan(){
+        private void reload_scan(){
             //Đọc lại nhãn master
             using (var kq = new ConfirmForm("Làm mới master", "Bạn có muốn đọc lại!"))
             {
-                normal_status();
-                if (kq.ShowDialog() == DialogResult.OK && qr_check)
+                if (kq.ShowDialog() == DialogResult.OK)
                 {
+                    normal_status();
                     // Lưu thông tin vào file 
                     SaveData.Save(user_code, "RFC", an_infor, ok_count, ng_count);
                     this.KeyPreview = true;
                     master_check = true;
-                    qr_check = false;
                     btn_confirm.Text = "Xác nhận";
                     btn_confirm.Enabled = false;
+                    btn_new.Enabled = false;
                     Data_Load();
-                }
-                else {
-                    this.KeyPreview = true;
-                    btn_confirm.Enabled = false;
-                    txt_infor.Text = @"Mời bạn đọc nhãn tiếp!";
                 }
             }
         }
@@ -499,6 +495,11 @@ hãy bắt đầu việc quét mã";
         {
             txt_infor.BackColor = Color.Red;
             txt_infor.ForeColor = Color.White;
+        }
+
+        private void btn_new_Click(object sender, EventArgs e)
+        {
+            reload_scan();
         }
     }
 }

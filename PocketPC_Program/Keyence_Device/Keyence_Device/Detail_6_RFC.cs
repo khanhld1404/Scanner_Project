@@ -270,13 +270,13 @@ Thực hiện đọc nhãn cần kiểm tra.
                 //Đưa bảng về rỗng
                 Data_Pocket.DataSource = null;
 
-                if (an_product == an)
+                if (an_product == an && lot_product == lot)
                 {
                     normal_status();
                     txt_infor.Text = @"Mã vạch khớp với nhãn master!
 Hãy tiếp tục đọc nhãn để kiểm tra
                     ";
-                    Beeper.Success();
+                    Beeper.Success2();
                     txt_infor.ForeColor = System.Drawing.Color.Lime;
 
                     // Cộng một vào giá trị Okkk

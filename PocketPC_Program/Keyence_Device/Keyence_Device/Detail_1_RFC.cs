@@ -88,7 +88,7 @@ namespace Keyence_Device
         private bool _isClosing = false; 
         private StringBuilder _scanBuffer = new StringBuilder(128); //Biến để nhận giá trị quét mã
         private Timer _scanTimeoutTimer;
-        private const int SCAN_TIMEOUT_MS = 50;    // khoảng trống > 50–100ms coi như xong một lần quét
+        private const int SCAN_TIMEOUT_MS = 100;    // khoảng trống > 50–100ms coi như xong một lần quét
         //Biến để biết có đọc lại master không
         private bool master_check = true;
         // Biến để xác định đã quét mã sau khi đã quét master hay chưa
@@ -190,6 +190,7 @@ Hãy nhập mã vạch khác!";
 
                 // Mở lại nút chức năng sau khi đã quét
                 btn_confirm.Enabled = true;
+                btn_new.Enabled = true;
 
                 //Đọc dữ liệu qr master
                 qr_infor = code;
@@ -269,7 +270,7 @@ Nhấn xác nhận để thực hiệc việc đọc nhãn cần kiểm tra.
                 //Đưa bảng về rỗng
                 Data_Pocket.DataSource = null;
                 txt_infor.ForeColor = System.Drawing.Color.Lime;
-                if (an_product == an)
+                if (an_product == an && pi_product == pi)
                 {
                     txt_infor.Text = @"Mã vạch khớp với nhãn master!
 Hãy tiếp tục đọc mã lot để kiểm tra: ";
@@ -278,8 +279,9 @@ Hãy tiếp tục đọc mã lot để kiểm tra: ";
                     // Nếu bộ phận là Rfc thì cần quét lot trước khi thêm vào
                     this.BeginInvoke(new Action(() =>
                     {
-                            GetLot gw = new GetLot(lot);
-                            if (gw.ShowDialog() == DialogResult.OK)
+                            GetLot gw = new GetLot(lot_product);
+                            var show_get_lot = gw.ShowDialog();
+                            if (show_get_lot == DialogResult.OK)
                             {
                                 // Cộng một vào giá trị Okkk
                                 ok_count += 1;
@@ -287,9 +289,9 @@ Hãy tiếp tục đọc mã lot để kiểm tra: ";
 
                                 txt_infor.Text = @"Mã vạch khớp với nhãn master và có lot phù hợp!
 Hãy tiếp tục đọc các mã khác để kiểm tra: ";
-                                Beeper.Success();
+                                Beeper.Success2();
                             }
-                            else{
+                            else if(show_get_lot == DialogResult.No){
                                 txt_infor.Text = @"Mã vạch khớp với nhãn master nhưng không có lot phù hợp!
 Nhấn tiếp tục để kiểm tra mã tiếp ";
                                 Beeper.Error();
@@ -302,6 +304,17 @@ Nhấn tiếp tục để kiểm tra mã tiếp ";
 
                                 ng_count += 1;
                                 lab_ng.Text = ng_count.ToString();
+                            }
+                            else if (show_get_lot == DialogResult.Cancel) {
+                                this.KeyPreview = true;
+                                master_check = true;
+                                qr_check = false;
+                                btn_confirm.Text = "Xác nhận";
+                                btn_confirm.Enabled = false;
+                                btn_new.Enabled = false;
+                                // Đưa về căn chỉnh màu màn hình chuẩn
+                                normal_status();
+                                Data_Load();
                             }
                     }));
 

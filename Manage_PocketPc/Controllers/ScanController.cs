@@ -24,10 +24,8 @@ namespace Manage_PocketPc.Controllers
 
         public async Task<IActionResult> RunImport()
         {
-            //C:\Khanh_Project\Keyence_Project\Pocket_Data
-            string folder = Path.Combine(AppContext.BaseDirectory, "Pocket_Data");
 
-            int rows = await _importer.ImportAllAsync(folder);
+            int rows = await _importer.ImportAllAsync(Cl_Connection.folder_data);
 
             TempData["success"] = "Số dòng dữ liệu đã thêm: " + rows;
             return RedirectToAction("Index");

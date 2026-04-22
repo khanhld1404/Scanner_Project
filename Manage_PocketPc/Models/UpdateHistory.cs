@@ -10,13 +10,15 @@ namespace Manage_PocketPc.Models
     public partial class UpdateHistory
     {
         [Key]
+        [Required(ErrorMessage = "Mời bạn nhập phiên bản phần mềm")]
         public int Version { get; set; }
         [StringLength(50)]
-        [Required(ErrorMessage = "Mời banh nhập mã nhân viên")]
+        [Required(ErrorMessage = "Mời bạn nhập mã nhân viên")]
         public string? Person { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime? Time { get; set; }
         [StringLength(500)]
+        [Required(ErrorMessage = "Mời bạn nhập nội dung cập nhật")]
         public string? Contents { get; set; }
     }
 }

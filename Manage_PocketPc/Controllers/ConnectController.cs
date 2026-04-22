@@ -1,4 +1,5 @@
 ﻿using Manage_PocketPc.Models;
+using Manage_PocketPc.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -24,13 +25,11 @@ namespace Manage_PocketPc.Controllers
         {
 
             //Đổi dữ kiệu từ sqlserver sang file sdf 
+            // Đường dẫn đến file exe
+            var exePath = Cl_Connection.exePath;
+            // Đường dẫn đến file sdf
+            var sdfPath = Cl_Connection.sdfPath;
 
-            // Đường dẫn thư mục, có KeyenceData.sdf ở cuối là tên file được tạo chứ không phải nó có sẵn
-            //var sdfPath = @"D:\Keyence_Project\Pocket_Data\KeyenceData.sdf";
-            //var exePath = @"D:\Keyence_Project\Covert_Data\bin\Debug\Covert_Data.exe";
-            
-            var sdfPath = @"C:\Khanh_Project\Keyence_Project\PocketPC_Web\Pocket_Data\KeyenceData.sdf";
-            var exePath = Path.Combine(AppContext.BaseDirectory, "Tools", "Covert_Data.exe");  
 
             var psi = new ProcessStartInfo
             {

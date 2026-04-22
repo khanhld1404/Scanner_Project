@@ -91,7 +91,7 @@ namespace Keyence_Device
             // (Tùy bạn) lọc/trim
             code = code.Trim();
             txt_Wo.Text = code;
-            if (code == "1" || code.Trim() == lot.Trim())
+            if (code.Trim() == "1" || code.Trim() == lot.Trim())
             {
                 this.DialogResult = DialogResult.OK;
             }
@@ -100,9 +100,9 @@ namespace Keyence_Device
             }
         }
 
-        private void label1_ParentChanged(object sender, EventArgs e)
+        private void btn_End_Click(object sender, EventArgs e)
         {
-
+            this.DialogResult = DialogResult.Cancel;
         }
     }
 }

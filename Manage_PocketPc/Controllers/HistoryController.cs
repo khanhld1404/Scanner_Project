@@ -2,6 +2,7 @@
 using Manage_PocketPc.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Manage_PocketPc.Services;
 namespace Manage_PocketPc.Controllers
 {
     public class HistoryController : Controller
@@ -14,6 +15,7 @@ namespace Manage_PocketPc.Controllers
         public IActionResult Index()
         {
             var data = _db.UpdateHistories.AsNoTracking()
+                .OrderByDescending(p => p.Version)
                 .ToList();
             return View(data);
         }
@@ -61,13 +63,68 @@ namespace Manage_PocketPc.Controllers
 
         public IActionResult Create()
         {
+
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(UpdateHistory up)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(
+            UpdateHistory data,
+            List<IFormFile> uploadFiles
+        )
         {
-            return View();
+            // 1️⃣ Validate model
+            if (ModelState.IsValid)
+            {
+                string folderPath = Cl_Connection.folder_data;
+
+                if (uploadFiles == null || uploadFiles.Count == 0)
+                {
+                    return BadRequest("Cần nhập file thông tin!");
+                }
+                // 2️⃣ Kiểm tra trùng phiên bản (PHẢI await)
+                var exist = await _db.UpdateHistories
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(p => p.Version == data.Version);
+
+                if (exist != null)
+                {
+                    return BadRequest("Phiên bản đã tồn tại, không thể sử dụng.");
+                }
+
+                // Nhập dữ liệu txt
+                CsvExporter.WriteToFile(data.Version.ToString(), folderPath, "Keyence_Program_Version.txt");
+
+                // 3️⃣ Lưu dữ liệu
+                data.Time = DateTime.Now;
+                _db.UpdateHistories.Add(data);
+                await _db.SaveChangesAsync();
+
+
+                if (!Directory.Exists(folderPath))
+                    Directory.CreateDirectory(folderPath);
+
+                foreach (var file in uploadFiles)
+                {
+                    if (file.Length > 0)
+                    {
+                        var filePath = Path.Combine(
+                            folderPath,
+                            Path.GetFileName(file.FileName)
+                        );
+
+                        using var stream = new FileStream(filePath, FileMode.Create);
+                        await file.CopyToAsync(stream);
+                    }
+                }
+            }else
+            {
+                return BadRequest("Nhập thiếu dữ liệu!");
+            }
+
+            // 5️⃣ Trả kết quả về cho fetch
+            return Ok("Thêm phiên bản thành công!");
         }
     }
 }

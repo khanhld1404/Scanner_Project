@@ -276,7 +276,7 @@ Thực hiện đọc nhãn cần kiểm tra.
                 //Đọc lại nhãn master
                 master_check = true;
 
-                if (an_product == an && exp_product == exp && lot_product == lot)
+                if (an_product == an && exp_product == exp)
                 {
                     txt_infor.Text = @"Mã vạch khớp với nhãn master!
 Hãy đọc lại nhãn master
@@ -302,45 +302,45 @@ Hãy đọc lại nhãn master";
                 //Kiểm tra và so sánh mã sản phẩm cần quét và master
                 if (pi_product == pi)
                 {
-                    pi_result = " = ";
+                    pi_result = " OK ";
                 }else{
-                    pi_result = " # ";
+                    pi_result = " NG ";
                 }
 
                 if (an_product == an)
                 {
-                    an_result = " = ";
+                    an_result = " OK ";
                 }
                 else
                 {
-                    an_result = " # ";
+                    an_result = " NG ";
                 }
 
                 if (cd_product == cd)
                 {
-                    cd_result = " = ";
+                    cd_result = " OK ";
                 }
                 else
                 {
-                    cd_result = " # ";
+                    cd_result = " NG ";
                 }
 
                 if (exp_product == exp)
                 {
-                    exp_result = " = ";
+                    exp_result = " OK ";
                 }
                 else
                 {
-                    exp_result = " # ";
+                    exp_result = " NG ";
                 }
 
                 if (lot_product == lot)
                 {
-                    lot_result = " = ";
+                    lot_result = " OK ";
                 }
                 else
                 {
-                    lot_result = " # ";
+                    lot_result = " NG ";
                 }
                 //Đưa kết quả lên bảng
                 dt.Rows.Add("PI", pi_infor, pi_result);

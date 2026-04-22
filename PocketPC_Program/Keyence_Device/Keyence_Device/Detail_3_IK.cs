@@ -279,47 +279,47 @@ Hãy tiếp tục đọc nhãn để kiểm tra";
                 //Kiểm tra và so sánh mã sản phẩm cần quét và master
                 if (pi_product == pi)
                 {
-                    pi_result = " = ";
+                    pi_result = " OK ";
                 }
                 else
                 {
-                    pi_result = " # ";
+                    pi_result = " NG ";
                 }
 
                 if (an_product == an)
                 {
-                    an_result = " = ";
+                    an_result = " OK ";
                 }
                 else
                 {
-                    an_result = " # ";
+                    an_result = " NG ";
                 }
 
                 if (cd_product == cd)
                 {
-                    cd_result = " = ";
+                    cd_result = " OK ";
                 }
                 else
                 {
-                    cd_result = " # ";
+                    cd_result = " NG ";
                 }
 
                 if (exp_product == exp)
                 {
-                    exp_result = " = ";
+                    exp_result = " OK ";
                 }
                 else
                 {
-                    exp_result = " # ";
+                    exp_result = " NG ";
                 }
 
                 if (lot_product == lot)
                 {
-                    lot_result = " = ";
+                    lot_result = " OK ";
                 }
                 else
                 {
-                    lot_result = " # ";
+                    lot_result = " NG ";
                 }
 
                 //Đưa kết quả lên bảng
