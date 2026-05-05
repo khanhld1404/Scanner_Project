@@ -35,7 +35,7 @@ namespace Keyence_Device.Class
                     cmd.Parameters.Add("@ng", SqlDbType.Int).Value = ng;
 
                     var p4 = cmd.Parameters.Add("@device", SqlDbType.NVarChar, 50);
-                    p4.Value = Other_Function.LoadDeviceCode();
+                    p4.Value = Other_Function.GetDeviceName();
 
                     cmd.ExecuteNonQuery();
                 }

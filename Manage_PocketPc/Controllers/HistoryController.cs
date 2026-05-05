@@ -77,7 +77,7 @@ namespace Manage_PocketPc.Controllers
             // 1️⃣ Validate model
             if (ModelState.IsValid)
             {
-                string folderPath = Cl_Connection.folder_data;
+                string folderPath = Cl_Connection.folder_download;
 
                 if (uploadFiles == null || uploadFiles.Count == 0)
                 {
@@ -94,7 +94,7 @@ namespace Manage_PocketPc.Controllers
                 }
 
                 // Nhập dữ liệu txt
-                CsvExporter.WriteToFile(data.Version.ToString(), folderPath, "Keyence_Program_Version.txt");
+                CsvExporter.WriteToFile(data.Version.ToString(), Cl_Connection.folder_data, "Keyence_Program_Version.txt");
 
                 // 3️⃣ Lưu dữ liệu
                 data.Time = DateTime.Now;

@@ -74,7 +74,7 @@ namespace Keyence_Device
         private bool _isClosing = false; 
         private StringBuilder _scanBuffer = new StringBuilder(128); //Biến để nhận giá trị quét mã
         private Timer _scanTimeoutTimer;
-        private const int SCAN_TIMEOUT_MS = 50;    // khoảng trống > 50–100ms coi như xong một lần quét
+        private const int SCAN_TIMEOUT_MS = 100;    // khoảng trống > 50–100ms coi như xong một lần quét
         //Biến để biết có đọc lại master không
         private bool master_check = true;
 

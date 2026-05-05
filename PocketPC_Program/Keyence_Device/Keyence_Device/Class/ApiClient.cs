@@ -81,8 +81,6 @@ namespace Keyence_Device.Class
             string serverFileName
         )
         {
-            if (string.IsNullOrEmpty(serverFileName))
-                serverFileName = "latest.csv";
 
             if (!File.Exists(csvLocalPath))
                 throw new FileNotFoundException("CSV không tồn tại: " + csvLocalPath);

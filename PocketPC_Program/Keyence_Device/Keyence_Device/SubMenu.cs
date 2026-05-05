@@ -20,7 +20,7 @@ namespace Keyence_Device
         }
 
         // ====== CẤU HÌNH DOWNLOADER ======
-        private string ServerUrl = "http://172.31.9.31/test_api/api/v1/sdf";
+        private string ServerUrl = "http://172.31.9.31/test_api/api/sdf";
         private string BearerToken = null;
         private int TimeoutMs = 120000;
 
@@ -48,7 +48,7 @@ namespace Keyence_Device
                 string message = null;
 
                 // tên file csv sẽ xuất hiện trên server
-                string filename = Other_Function.LoadDeviceCode() + "_" + DateTime.Now.ToString("ddmmyyyy-HH-mm") + ".csv";
+                string filename = Other_Function.GetDeviceName() + "_" + DateTime.Now.ToString("ddmmyyyy-HH-mm") + ".csv";
 
                 using (var loading = new LoadForm("Đang cập nhật dữ liệu!"))
                 {

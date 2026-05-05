@@ -25,7 +25,7 @@ namespace Manage_PocketPc.Controllers
         public async Task<IActionResult> RunImport()
         {
 
-            int rows = await _importer.ImportAllAsync(Cl_Connection.folder_data);
+            int rows = await _importer.ImportAllAsync(Cl_Connection.folder_csv);
 
             TempData["success"] = "Số dòng dữ liệu đã thêm: " + rows;
             return RedirectToAction("Index");
