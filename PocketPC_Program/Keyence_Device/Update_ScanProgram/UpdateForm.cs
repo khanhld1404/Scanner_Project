@@ -82,7 +82,7 @@ namespace Update_ScanProgram
             }
 
             // chạy chương trình thực sự
-            string exepath = Path.Combine(application_path,"Keyence_Device.exe");
+            string exepath = Path.Combine(application_path,"Scan_Qr.exe");
             ProcessStartInfo psi = new ProcessStartInfo();
             psi.FileName = exepath;
             Process.Start(psi);

@@ -6,7 +6,8 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using Keyence_Device.Class;
+using Keyence_Device.Function;
+using Keyence_Device.Api;
 using System.Threading;
 using System.Net;
 using System.IO;
@@ -27,7 +28,7 @@ namespace Keyence_Device
         private void Btn_Update_Click(object sender, EventArgs e)
         {
 
-            ConfirmForm cf = new ConfirmForm("Cập nhật dữ liệu", "Bạn có muốn cập nhật?");
+            ConfirmForm cf = new ConfirmForm("Bạn có muốn cập nhật?");
             if (cf.ShowDialog() == DialogResult.OK)
             {
                 // Xuất CSV

@@ -9,7 +9,7 @@ using System.Net;
 using System.IO;
 using System.Threading;                 // ThreadPool (không dùng Timer ở đây)
 using System.Data.SqlServerCe;
-using Keyence_Device.Class;
+using Keyence_Device.Function;
 
 namespace Keyence_Device
 {

@@ -6,7 +6,7 @@ using System.Net;
 using System.IO;
 // --------- HTTP helper ----------
 // Xử lý việc gọi thông tin từ server và đẩy thông tin lên server 
-namespace Keyence_Device.Class
+namespace Keyence_Device.Api
 {
     public static class ApiClient
     {

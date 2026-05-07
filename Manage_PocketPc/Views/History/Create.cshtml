@@ -24,12 +24,6 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Nhập phiên bản:</label>
-            <input asp-for="Version" class="form-control" />
-            <span asp-validation-for="Version" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
             <label class="form-label">Cập nhật bởi :</label>
             <input asp-for="Person" class="form-control" />
             <span asp-validation-for="Person" class="text-danger"></span>
@@ -43,6 +37,7 @@
 
 
         <button type="submit" class="btn btn-success btn-sm fw-bold">Lưu</button>
+
         <a asp-controller="History" asp-action="Index" class="btn btn-secondary btn-sm">Quay lại</a>
     </form>
 </div>

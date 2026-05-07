@@ -58,96 +58,97 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\ApiProgram.cs" />
     <Compile Include="Check_Version.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Check_Version.Designer.cs">
       <DependentUpon>Check_Version.cs</DependentUpon>
     </Compile>
-    <Compile Include="Class\ApiClient.cs" />
-    <Compile Include="Class\Beeper.cs" />
-    <Compile Include="Class\CsvExport.cs" />
-    <Compile Include="Class\DbConfig.cs" />
-    <Compile Include="Class\InputGuard.cs">
+    <Compile Include="Api\ApiData.cs" />
+    <Compile Include="Function\Beeper.cs" />
+    <Compile Include="Function\CsvExport.cs" />
+    <Compile Include="Function\DbConfig.cs" />
+    <Compile Include="Function\InputGuard.cs">
     </Compile>
-    <Compile Include="Class\Other_Function.cs" />
-    <Compile Include="Class\SaveData.cs" />
+    <Compile Include="Function\Other_Function.cs" />
+    <Compile Include="Function\SaveData.cs" />
     <Compile Include="ConfirmForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ConfirmForm.Designer.cs">
       <DependentUpon>ConfirmForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Detail_1_RFC.cs">
+    <Compile Include="RFC\Detail_1_RFC.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Detail_1_RFC.Designer.cs">
+    <Compile Include="RFC\Detail_1_RFC.Designer.cs">
       <DependentUpon>Detail_1_RFC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Detail_2_IK.cs">
+    <Compile Include="IK\Detail_2_IK.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Detail_2_IK.Designer.cs">
+    <Compile Include="IK\Detail_2_IK.Designer.cs">
       <DependentUpon>Detail_2_IK.cs</DependentUpon>
     </Compile>
-    <Compile Include="Detail_2_RFC.cs">
+    <Compile Include="RFC\Detail_2_RFC.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Detail_2_RFC.Designer.cs">
+    <Compile Include="RFC\Detail_2_RFC.Designer.cs">
       <DependentUpon>Detail_2_RFC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Detail_3_IK.cs">
+    <Compile Include="IK\Detail_3_IK.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Detail_3_IK.Designer.cs">
+    <Compile Include="IK\Detail_3_IK.Designer.cs">
       <DependentUpon>Detail_3_IK.cs</DependentUpon>
     </Compile>
-    <Compile Include="Detail_1_IK.cs">
+    <Compile Include="IK\Detail_1_IK.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Detail_1_IK.Designer.cs">
+    <Compile Include="IK\Detail_1_IK.Designer.cs">
       <DependentUpon>Detail_1_IK.cs</DependentUpon>
     </Compile>
-    <Compile Include="Detail_3_RFC.cs">
+    <Compile Include="RFC\Detail_3_RFC.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Detail_3_RFC.Designer.cs">
+    <Compile Include="RFC\Detail_3_RFC.Designer.cs">
       <DependentUpon>Detail_3_RFC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Detail_4_IK.cs">
+    <Compile Include="IK\Detail_4_IK.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Detail_4_IK.Designer.cs">
+    <Compile Include="IK\Detail_4_IK.Designer.cs">
       <DependentUpon>Detail_4_IK.cs</DependentUpon>
     </Compile>
-    <Compile Include="Detail_4_RFC.cs">
+    <Compile Include="RFC\Detail_4_RFC.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Detail_4_RFC.Designer.cs">
+    <Compile Include="RFC\Detail_4_RFC.Designer.cs">
       <DependentUpon>Detail_4_RFC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Detail_5_IK.cs">
+    <Compile Include="IK\Detail_5_IK.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Detail_5_IK.Designer.cs">
+    <Compile Include="IK\Detail_5_IK.Designer.cs">
       <DependentUpon>Detail_5_IK.cs</DependentUpon>
     </Compile>
-    <Compile Include="Detail_5_RFC.cs">
+    <Compile Include="RFC\Detail_5_RFC.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Detail_5_RFC.Designer.cs">
+    <Compile Include="RFC\Detail_5_RFC.Designer.cs">
       <DependentUpon>Detail_5_RFC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Detail_6_IK.cs">
+    <Compile Include="IK\Detail_6_IK.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Detail_6_IK.Designer.cs">
+    <Compile Include="IK\Detail_6_IK.Designer.cs">
       <DependentUpon>Detail_6_IK.cs</DependentUpon>
     </Compile>
-    <Compile Include="Detail_6_RFC.cs">
+    <Compile Include="RFC\Detail_6_RFC.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Detail_6_RFC.Designer.cs">
+    <Compile Include="RFC\Detail_6_RFC.Designer.cs">
       <DependentUpon>Detail_6_RFC.cs</DependentUpon>
     </Compile>
     <Compile Include="GetLot.cs">
@@ -156,7 +157,7 @@
     <Compile Include="GetLot.Designer.cs">
       <DependentUpon>GetLot.cs</DependentUpon>
     </Compile>
-    <Compile Include="Class\Handle_Password.cs" />
+    <Compile Include="Function\Handle_Password.cs" />
     <Compile Include="LoadForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -188,40 +189,41 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Check_Version.resx">
       <DependentUpon>Check_Version.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ConfirmForm.resx">
       <DependentUpon>ConfirmForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Detail_1_RFC.resx">
+    <EmbeddedResource Include="RFC\Detail_1_RFC.resx">
       <DependentUpon>Detail_1_RFC.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Detail_2_IK.resx">
+    <EmbeddedResource Include="IK\Detail_2_IK.resx">
       <DependentUpon>Detail_2_IK.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Detail_2_RFC.resx">
+    <EmbeddedResource Include="RFC\Detail_2_RFC.resx">
       <DependentUpon>Detail_2_RFC.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Detail_3_IK.resx">
+    <EmbeddedResource Include="IK\Detail_3_IK.resx">
       <DependentUpon>Detail_3_IK.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Detail_1_IK.resx">
+    <EmbeddedResource Include="IK\Detail_1_IK.resx">
       <DependentUpon>Detail_1_IK.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Detail_4_RFC.resx">
+    <EmbeddedResource Include="RFC\Detail_4_RFC.resx">
       <DependentUpon>Detail_4_RFC.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Detail_5_RFC.resx">
+    <EmbeddedResource Include="RFC\Detail_5_RFC.resx">
       <DependentUpon>Detail_5_RFC.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Detail_6_RFC.resx">
+    <EmbeddedResource Include="RFC\Detail_6_RFC.resx">
       <DependentUpon>Detail_6_RFC.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -258,7 +260,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Class\Sound_Function.cs" />
+    <Compile Include="Function\Sound_Function.cs" />
     <Compile Include="SubMenu.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data.SqlServerCe;
 using System.IO;
-namespace Keyence_Device.Class
+namespace Keyence_Device.Function
 {
 
     public static class CsvExport

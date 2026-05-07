@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
-using Keyence_Device.Class;
+using Keyence_Device.Function;
 namespace Keyence_Device
 {
     public class MultilineButton : Control

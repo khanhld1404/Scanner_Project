@@ -11,10 +11,9 @@ namespace Keyence_Device
 {
     public partial class ConfirmForm : Form
     {
-        public ConfirmForm(string main, string notify)
+        public ConfirmForm(string notify)
         {
             InitializeComponent();
-            this.Text = main;
             lab_notify.Text = notify;
         }
 

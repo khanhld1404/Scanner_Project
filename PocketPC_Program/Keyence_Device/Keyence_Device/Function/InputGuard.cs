@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;   // <— QUAN TRỌNG
-namespace Keyence_Device.Class
+namespace Keyence_Device.Function
 {
     // Nếu không có class này thì sẽ bị lỗi con trỏ chuột vẫn còn chưa giải phóng nên có thể nó sẽ mở chức năng
     // 3

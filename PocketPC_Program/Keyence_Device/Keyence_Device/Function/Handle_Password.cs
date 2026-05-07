@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Keyence_Device
+namespace Keyence_Device.Function
 {
     class Handle_Password
     {

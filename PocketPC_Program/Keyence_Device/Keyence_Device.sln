@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Keyence_Device", "Keyence_D
 EndProject
 Project("{B900F1C2-3D47-4FEC-85B3-04AAF18C3634}") = "Keyence_CAB", "Keyence_CAB\Keyence_CAB.vddproj", "{65041DBC-FDCD-4C4A-8B91-5A31223FD9BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Update_ScanProgram", "Update_ScanProgram\Update_ScanProgram.csproj", "{78667131-5333-49D5-91D3-741672CE46E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,12 @@ Global
 		{BFD18553-D93A-4C0B-A76D-5116C0E27861}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{65041DBC-FDCD-4C4A-8B91-5A31223FD9BE}.Debug|Any CPU.ActiveCfg = Debug
 		{65041DBC-FDCD-4C4A-8B91-5A31223FD9BE}.Release|Any CPU.ActiveCfg = Release
+		{78667131-5333-49D5-91D3-741672CE46E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78667131-5333-49D5-91D3-741672CE46E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78667131-5333-49D5-91D3-741672CE46E2}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{78667131-5333-49D5-91D3-741672CE46E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78667131-5333-49D5-91D3-741672CE46E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78667131-5333-49D5-91D3-741672CE46E2}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

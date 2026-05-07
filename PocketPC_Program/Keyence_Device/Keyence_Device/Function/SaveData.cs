@@ -5,7 +5,7 @@ using System.Text;
 using System.Data.SqlServerCe;
 using System.Data.SqlTypes;
 using System.Data;
-namespace Keyence_Device.Class
+namespace Keyence_Device.Function
 {
     class SaveData
     {

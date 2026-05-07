@@ -13,7 +13,7 @@ namespace Keyence_Device
         [MTAThread]
         static void Main()
         {
-            Application.Run(new Login());
+            Application.Run(new Check_Version());
         }
     }
 }

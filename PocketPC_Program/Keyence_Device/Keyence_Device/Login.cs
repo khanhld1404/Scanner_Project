@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Reflection;
 using System.Threading;
-using Keyence_Device.Class;
+using Keyence_Device.Function;
 namespace Keyence_Device
 {
     public partial class Login : Form

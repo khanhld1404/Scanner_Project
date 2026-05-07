@@ -5,15 +5,13 @@ using System.Text;
 using System.Data.SqlServerCe;
 using System.IO;
 using Microsoft.Win32;   
-namespace Keyence_Device.Class
+namespace Keyence_Device.Function
 {
     public class Other_Function
     {
         //Hàm đọc toàn bộ thông tin có trong file
-
         public static string ReadAllText(string path, Encoding encoding)
         {
-            if (path == null) throw new ArgumentNullException("path");
             using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (var sr = new StreamReader(fs, encoding))
             {
@@ -21,20 +19,26 @@ namespace Keyence_Device.Class
             }
         }
 
-        // Overload mặc định UTF-8 (không BOM) – đổi nếu bạn lưu Unicode/ANSI khác
-        public static string ReadAllText(string path)
-        {
-            // hàm ở dưới là một hàm khác, không phải đệ quy
-            return ReadAllText(path,Encoding.UTF8);
-        }
-
-
         // Lấy thông tin phiên bản phần mềm
         public static string Version_Program()
         {
             string path = DbConfig.path_file_version;
             if (!File.Exists(path)) return "UNKNOWN";
-            return ReadAllText(path).Trim();
+            return ReadAllText(path, Encoding.UTF8).Trim();
+        }
+
+        // Hàm ghi toàn bộ thông tin vào file txt
+        public static void WriteAllText(string path, string content)
+        {
+            using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write))
+            using (var sr = new StreamWriter(fs))
+            {
+                sr.Write(content);
+                sr.Flush();
+
+                sr.Close();
+                fs.Close();
+            }
         }
 
         // Hàm tạo thư mục

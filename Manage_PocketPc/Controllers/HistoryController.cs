@@ -84,20 +84,33 @@ namespace Manage_PocketPc.Controllers
                     return BadRequest("Cần nhập file thông tin!");
                 }
                 // 2️⃣ Kiểm tra trùng phiên bản (PHẢI await)
-                var exist = await _db.UpdateHistories
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(p => p.Version == data.Version);
+                //var exist = await _db.UpdateHistories
+                //    .AsNoTracking()
+                //    .FirstOrDefaultAsync(p => p.Version == data.Version);
 
-                if (exist != null)
-                {
-                    return BadRequest("Phiên bản đã tồn tại, không thể sử dụng.");
-                }
+                //if (exist != null)
+                //{
+                //    return BadRequest("Phiên bản đã tồn tại, không thể sử dụng.");
+                //}
+
+                // Lấy phiên bản lớn nhất hiện tại
+                int max_version = _db.UpdateHistories
+                    .Max(x =>x.Version);
+
+                //Phiên bản tiếp theo
+                int new_version = max_version + 1;
 
                 // Nhập dữ liệu txt
-                CsvExporter.WriteToFile(data.Version.ToString(), Cl_Connection.folder_data, "Keyence_Program_Version.txt");
+                TxtExporter.WriteToFile(new_version.ToString(), Cl_Connection.folder_data, "Keyence_Program_Version.txt");
+
+                if(data.Version < max_version)
+                {
+                    TempData["error"] = "Chương trình chỉ cập nhật phần mềm theo phiên bản lớn nhất";
+                }
 
                 // 3️⃣ Lưu dữ liệu
                 data.Time = DateTime.Now;
+                data.Version = new_version;
                 _db.UpdateHistories.Add(data);
                 await _db.SaveChangesAsync();
 

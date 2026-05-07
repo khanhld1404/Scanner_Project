@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Manage_PocketPc.Services
 {
-    public class CsvExporter
+    public class TxtExporter
     {
         public static void WriteToFile(string content, string filePath, string fileName)
         {

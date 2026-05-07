@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.Text;
 using System.Data.SqlServerCe;
 using System.IO;
-using Keyence_Device.Class;
+using Keyence_Device.Function;
 using System.Threading;
 namespace Keyence_Device
 {
@@ -36,7 +36,7 @@ namespace Keyence_Device
         {
             try
             {
-                using (var cf = new ConfirmForm("Xác nhận quay lại", "Bạn có chắc muốn thoát!"))
+                using (var cf = new ConfirmForm("Bạn có chắc muốn thoát!"))
                 {
                     if (cf.ShowDialog() == DialogResult.OK)
                     {

@@ -1,5 +1,5 @@
 ﻿using System.Threading;
-namespace Keyence_Device
+namespace Keyence_Device.Function
 {
     class Beeper
     {

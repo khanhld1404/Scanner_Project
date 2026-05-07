@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
-using Keyence_Device.Class;
+using Keyence_Device.Function;
 namespace Keyence_Device
 {
     public partial class Detail_5_IK : Form
@@ -34,7 +34,7 @@ namespace Keyence_Device
 
         private void btn_Return_Click(object sender, EventArgs e)
         {
-            using (var cf = new ConfirmForm("Xác nhận quay lại", "Bạn có chắc muốn thoát!"))
+            using (var cf = new ConfirmForm("Bạn có chắc muốn thoát!"))
             {
                 if (cf.ShowDialog() == DialogResult.OK)
                 {

@@ -6,43 +6,57 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Keyence_Device.Function;
 using System.Data.SqlServerCe;
-using Keyence_Device.Class;
 namespace Keyence_Device
 {
-    public partial class Detail_2_IK : Form
+    public partial class Detail_1_RFC : Form
     {
         // Biến lưu mã nhân viên sử dụng
         private string user_code;
 
-        public Detail_2_IK(string tt)
+        public Detail_1_RFC(string tt)
         {
             InitializeComponent();
             this.KeyPreview = true;
             user_code = tt;
         }
 
-        private void Detail_2_Load(object sender, EventArgs e)
+        // Xử lý thông tin và giao diện ban đầu
+        private void Data_Load()
         {
             // Nạp dữ liệu mẫu
             var dt = new DataTable("Details");
             dt.Columns.Add("Ma", typeof(string));
             dt.Columns.Add("Content", typeof(string));
             dt.Columns.Add("Result", typeof(string));
+
+            txt_infor.Text = @"Hãy đọc nhãn master";
+            txt_infor.ForeColor = System.Drawing.Color.Black;
             Data_Pocket.DataSource = dt;
+            // Đưa các giá trị đếm về bằng 0
+            ok_count = 0;
+            ng_count = 0;
+            lab_ok.Text = ok_count.ToString();
+            lab_ng.Text = ng_count.ToString();
+
         }
 
+        private void Detail_1_RFC_Load(object sender, EventArgs e)
+        {
+            Data_Load();
+        }
+        // Xử lý nút quay lại
         private void btn_Return_Click(object sender, EventArgs e)
         {
-            using (var cf = new ConfirmForm("Xác nhận quay lại", "Bạn có chắc muốn thoát!"))
+            using (var cf = new ConfirmForm("Bạn có chắc muốn thoát!"))
             {
-                if (cf.ShowDialog() == DialogResult.OK)
+                if (cf.ShowDialog() == DialogResult.OK )
                 {
                     // TẮT NHẬN BARCODE NGAY
 
                     _isClosing = true;                 // <-- quan trọng
                     this.KeyPreview = false;
-
 
                     if (_scanTimeoutTimer != null)
                     {
@@ -54,20 +68,20 @@ namespace Keyence_Device
 
                     _scanBuffer.Length = 0;
 
+
                     InputGuard.DrainInputQueue();
                     InputGuard.SuppressForMs(600);
 
                     this.Close();
-                    if (master_check == true && tmp_master != "")
+                    if (qr_check)
                     {
                         // Lưu thông tin vào file 
-                        SaveData.Save(user_code, "IK", an_infor, ok_count, ng_count);
+                        SaveData.Save(user_code, "RFC", an_infor, ok_count, ng_count);
                     }
                 }
             }
         }
 
-        // Xử lý việc quét mã 
         //Xử lý việc quét mã vạch
 
         // Field của form
@@ -77,6 +91,8 @@ namespace Keyence_Device
         private const int SCAN_TIMEOUT_MS = 100;    // khoảng trống > 50–100ms coi như xong một lần quét
         //Biến để biết có đọc lại master không
         private bool master_check = true;
+        // Biến để xác định đã quét mã sau khi đã quét master hay chưa
+        private bool qr_check = false;
 
         // Các giá được tách ra từ mã vạch
         //Biến chứa thông tin master mã
@@ -91,10 +107,8 @@ namespace Keyence_Device
         int ok_count = 0;
         int ng_count = 0;
 
-        // Biến để lưu giá trị master code
-        string tmp_master = "";
 
-        //Xử lý quét mã
+        // Xử lý quét mã
         // Đổi Tick handler sang method đặt tên để có thể tháo gỡ
         private void EnsureScanTimer()
         {
@@ -174,6 +188,10 @@ Hãy nhập mã vạch khác!";
             if (master_check)
             {
 
+                // Mở lại nút chức năng sau khi đã quét
+                btn_confirm.Enabled = true;
+                btn_new.Enabled = true;
+
                 //Đọc dữ liệu qr master
                 qr_infor = code;
                 pi = code.Substring(2, 1);
@@ -181,29 +199,19 @@ Hãy nhập mã vạch khác!";
                 cd = code.Substring(15, 1);
                 exp = code.Substring(18, 6);
                 lot = code.Substring(26);
-                if (an != tmp_master && tmp_master != "")
-                {
-                    // Lưu thông tin vào file 
-                    SaveData.Save(user_code, "IK", an_infor, ok_count, ng_count);
 
-                    ok_count = 0;
-                    ng_count = 0;
-                    lab_ok.Text = ok_count.ToString();
-                    lab_ng.Text = ng_count.ToString();
-                }
                 // Kiểm tra mã vạch có trong master không
                 if (!check_QR(an))
                 {
                     txt_infor.Text = @"Nhãn master chưa được đăng ký!. 
 Hãy nhập nhãn master khác!";
-                    Beeper.Error();
                     txt_infor.ForeColor = System.Drawing.Color.Orange;
-
-                    tmp_master = "";
+                    Beeper.Error();
+                    btn_confirm.Enabled = false;
+                    btn_new.Enabled = false;
                     return;
                 }
-                //
-                tmp_master = an;
+
                 //Xử lý thông tin pi
                 if (pi == "0")
                 {
@@ -226,6 +234,8 @@ Hãy nhập nhãn master khác!";
                 string year = exp.Substring(0, 2);
                 string month = exp.Substring(2, 2);
                 string day = exp.Substring(4, 2);
+
+                // Ai sau này bị lỗi về thời gian thì chỉnh ở đây thay 20 bằng 30 là được (Khánh người của năm 2026)
                 exp_infor = "20" + year + "-" + month + "-" + day;
 
                 // Xử lý thông tin an
@@ -240,15 +250,16 @@ Hãy nhập nhãn master khác!";
                 Data_Pocket.DataSource = dt;
 
                 txt_infor.Text = @"Nhãn Master đã được đăng ký!
-Thực hiện đọc nhãn cần kiểm tra.
+Nhấn xác nhận để thực hiệc việc đọc nhãn cần kiểm tra.
                 ";
                 Beeper.Success();
                 txt_infor.ForeColor = System.Drawing.Color.Black;
 
-                master_check = false;
             }
             else
             {
+                // Chỉnh là qr_check khi đã quét tt qr để so với master
+                qr_check = true;
                 // Đọc các giá  trị quét qr sản phẩm
                 pi_product = code.Substring(2, 1);
                 an_product = code.Substring(3, 12);
@@ -258,28 +269,68 @@ Thực hiện đọc nhãn cần kiểm tra.
 
                 //Đưa bảng về rỗng
                 Data_Pocket.DataSource = null;
-
-                //Đọc lại nhãn master
-                master_check = true;
-
-                if (an_product == an && exp_product == exp && lot_product == lot)
+                txt_infor.ForeColor = System.Drawing.Color.Lime;
+                if (an_product == an && pi_product == pi)
                 {
                     txt_infor.Text = @"Mã vạch khớp với nhãn master!
-Hãy đọc lại nhãn master
-                    ";
+Hãy tiếp tục đọc mã lot để kiểm tra: ";
                     Beeper.Success();
-                    txt_infor.ForeColor = System.Drawing.Color.Lime;
+                    // Đọc lot
+                    // Nếu bộ phận là Rfc thì cần quét lot trước khi thêm vào
+                    this.BeginInvoke(new Action(() =>
+                    {
+                            GetLot gw = new GetLot(lot_product);
+                            var show_get_lot = gw.ShowDialog();
+                            if (show_get_lot == DialogResult.OK)
+                            {
+                                // Cộng một vào giá trị Okkk
+                                ok_count += 1;
+                                lab_ok.Text = ok_count.ToString();
 
-                    // Cộng một vào giá trị Okkk
-                    ok_count += 1;
-                    lab_ok.Text = ok_count.ToString();
+                                txt_infor.Text = @"Mã vạch khớp với nhãn master và có lot phù hợp!
+Hãy tiếp tục đọc các mã khác để kiểm tra: ";
+                                Beeper.Success2();
+                            }
+                            else if(show_get_lot == DialogResult.No){
+                                txt_infor.Text = @"Mã vạch khớp với nhãn master nhưng không có lot phù hợp!
+Nhấn tiếp tục để kiểm tra mã tiếp ";
+                                Beeper.Error();
+                                // Hiển thị scan sai bằng cho màn hình chuyển đỏ
+                                error_status();
+                                // Khởi động nút tiếp tục
+                                btn_confirm.Enabled = true;
+                                btn_confirm.Text = "Tiếp tục";
+                                this.KeyPreview = false;
+
+                                ng_count += 1;
+                                lab_ng.Text = ng_count.ToString();
+                            }
+                            else if (show_get_lot == DialogResult.Cancel) {
+                                this.KeyPreview = true;
+                                master_check = true;
+                                qr_check = false;
+                                btn_confirm.Text = "Xác nhận";
+                                btn_confirm.Enabled = false;
+                                btn_new.Enabled = false;
+                                // Đưa về căn chỉnh màu màn hình chuẩn
+                                normal_status();
+                                Data_Load();
+                            }
+                    }));
+
                 }
                 else
                 {
                     txt_infor.Text = @"Mã vạch không khớp với nhãn master! 
-Hãy đọc lại nhãn master";
+Hãy kiểm tra lại
+Nhấn tiếp tục nếu muốn quét mã tiếp!";
                     Beeper.Error();
-                    txt_infor.ForeColor = System.Drawing.Color.Red;
+                    // Khởi động nút tiếp tục
+                    btn_confirm.Enabled = true;
+                    btn_confirm.Text = "Tiếp tục";
+                    this.KeyPreview = false;
+                    // Hiển thị scan sai bằng cho màn hình chuyển đỏ
+                    error_status();
                     ng_count += 1;
                     lab_ng.Text = ng_count.ToString();
                 }
@@ -287,47 +338,47 @@ Hãy đọc lại nhãn master";
                 //Kiểm tra và so sánh mã sản phẩm cần quét và master
                 if (pi_product == pi)
                 {
-                    pi_result = " OK ";
+                    pi_result = " = ";
                 }
                 else
                 {
-                    pi_result = " NG ";
+                    pi_result = " # ";
                 }
 
                 if (an_product == an)
                 {
-                    an_result = " OK ";
+                    an_result = " = ";
                 }
                 else
                 {
-                    an_result = " NG ";
+                    an_result = " # ";
                 }
 
                 if (cd_product == cd)
                 {
-                    cd_result = " OK ";
+                    cd_result = " = ";
                 }
                 else
                 {
-                    cd_result = " NG ";
+                    cd_result = " # ";
                 }
 
                 if (exp_product == exp)
                 {
-                    exp_result = " OK ";
+                    exp_result = " = ";
                 }
                 else
                 {
-                    exp_result = " NG ";
+                    exp_result = " # ";
                 }
 
                 if (lot_product == lot)
                 {
-                    lot_result = " OK ";
+                    lot_result = " = ";
                 }
                 else
                 {
-                    lot_result = " NG ";
+                    lot_result = " # ";
                 }
 
                 //Đưa kết quả lên bảng
@@ -349,7 +400,7 @@ Hãy đọc lại nhãn master";
                 {
                     conn.Open();
                     string sql = @"SELECT CASE WHEN EXISTS 
-                         (SELECT 1 FROM IK WHERE an = @qr) 
+                         (SELECT 1 FROM RFC WHERE an = @qr) 
                         THEN 1 ELSE 0 END";
                     using (var cmd = conn.CreateCommand())
                     {
@@ -394,8 +445,9 @@ Hãy đọc lại nhãn master";
                     conn.Open();
                     string sql = @"
                             SELECT product
-                            FROM IK
+                            FROM RFC
                             WHERE an = @tt";
+
                     using (var cmd = conn.CreateCommand())
                     {
                         cmd.CommandText = sql;
@@ -425,5 +477,63 @@ Hãy đọc lại nhãn master";
                 return null;
             }
         }
+
+        private void btn_confirm_Click(object sender, EventArgs e)
+        {
+            if (master_check) {
+                master_check = false;
+                btn_confirm.Enabled = false;
+                //Cho phép làm mới
+                btn_new.Enabled = true;
+                // hiển thị lại thông báo
+                txt_infor.Text = @"Nhãn master hợp lệ
+hãy bắt đầu việc quét mã";
+            }else{
+                normal_status();
+                this.KeyPreview = true;
+                btn_confirm.Enabled = false;
+                txt_infor.Text = @"Mời bạn đọc nhãn tiếp!";
+                txt_infor.ForeColor = System.Drawing.Color.Black;
+            }
+        }
+
+        private void btn_new_Click(object sender, EventArgs e)
+        {
+
+            //Đọc lại nhãn master
+            using (var kq = new ConfirmForm("Bạn có muốn đọc lại!"))
+            {
+                if (kq.ShowDialog() == DialogResult.OK && qr_check)
+                {
+                    // Lưu thông tin vào file 
+                    SaveData.Save(user_code, "RFC", an_infor, ok_count, ng_count);
+                }
+                this.KeyPreview = true;
+                master_check = true;
+                qr_check = false;
+                btn_confirm.Text = "Xác nhận";
+                btn_confirm.Enabled = false;
+                btn_new.Enabled = false;
+                // Đưa về căn chỉnh màu màn hình chuẩn
+                normal_status();
+                Data_Load();
+            }
+        }
+
+
+        // hàm để đổi màn nhằm đưa ra được thông tin là đang bình thường
+        public void normal_status() {
+            // phần nhập
+            txt_infor.BackColor = Color.White;
+            txt_infor.ForeColor = Color.Black;
+        }
+
+        // hàm để đổi màn nhằm đưa ra được thông tin là đang sai
+        public void error_status()
+        {
+            txt_infor.BackColor = Color.Red;
+            txt_infor.ForeColor = Color.White;
+        }
+
     }
 }

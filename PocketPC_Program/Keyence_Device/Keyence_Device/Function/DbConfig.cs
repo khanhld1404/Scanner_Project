@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-namespace Keyence_Device.Class
+namespace Keyence_Device.Function
 {
     // Một nơi DÙNG CHUNG cho toàn app:
     public static class DbConfig

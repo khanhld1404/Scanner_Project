@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Reflection;
 
-namespace Keyence_Device
+namespace Keyence_Device.Function
 {
     public static class Sound_Function
     {
