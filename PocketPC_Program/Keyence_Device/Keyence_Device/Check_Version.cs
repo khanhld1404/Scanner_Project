@@ -37,7 +37,7 @@ namespace Keyence_Device
                 int server_version = Convert.ToInt32(ApiProgram.Get_version(DbConfig.server_file_version));
 
                 // so sáng phiên bản hiện tại với trên server
-                if (current_version <= server_version) {
+                if (current_version >= server_version) {
                     Login lg = new Login();
                     lg.ShowDialog();
                     this.Close();

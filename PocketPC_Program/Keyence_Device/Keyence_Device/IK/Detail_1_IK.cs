@@ -276,7 +276,7 @@ Thực hiện đọc nhãn cần kiểm tra.
                 //Đọc lại nhãn master
                 master_check = true;
 
-                if (an_product == an && exp_product == exp)
+                if (an_product == an && exp_product == exp && pi_product == pi)
                 {
                     txt_infor.Text = @"Mã vạch khớp với nhãn master!
 Hãy đọc lại nhãn master

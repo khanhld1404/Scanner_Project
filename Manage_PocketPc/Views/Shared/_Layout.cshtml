@@ -187,13 +187,13 @@
                 'input[name="__RequestVerificationToken"]'
             ).value;
 
-            fetch("/History/Create", {
-                method: "POST",
-                headers: {
-                    "RequestVerificationToken": token
-                },
-                body: formData
-            })
+        fetch("@Url.Action("Create", "History")", {
+            method: "POST",
+            headers: {
+                "RequestVerificationToken": token
+            },
+            body: formData
+        })
             .then(res => {
                 if (!res.ok) {
                     return res.text().then(t => { throw new Error(t); });
@@ -202,7 +202,7 @@
             })
             .then(msg => {
                 alert(msg);
-                window.location.href = "/History/Index";
+                window.location.href = "@Url.Action("Index", "History")";
             })
             .catch(err => {
                 alert(err.message); // ❗ hiện lỗi khi thiếu dữ liệu

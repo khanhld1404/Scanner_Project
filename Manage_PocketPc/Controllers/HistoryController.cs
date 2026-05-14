@@ -94,19 +94,16 @@ namespace Manage_PocketPc.Controllers
                 //}
 
                 // Lấy phiên bản lớn nhất hiện tại
-                int max_version = _db.UpdateHistories
-                    .Max(x =>x.Version);
+                int max_version = await _db.UpdateHistories
+                    .Select(x => (int?)x.Version)
+                    .MaxAsync() ?? 0;
+
 
                 //Phiên bản tiếp theo
                 int new_version = max_version + 1;
 
                 // Nhập dữ liệu txt
                 TxtExporter.WriteToFile(new_version.ToString(), Cl_Connection.folder_data, "Keyence_Program_Version.txt");
-
-                if(data.Version < max_version)
-                {
-                    TempData["error"] = "Chương trình chỉ cập nhật phần mềm theo phiên bản lớn nhất";
-                }
 
                 // 3️⃣ Lưu dữ liệu
                 data.Time = DateTime.Now;

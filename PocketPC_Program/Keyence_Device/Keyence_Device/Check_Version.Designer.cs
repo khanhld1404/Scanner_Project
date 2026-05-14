@@ -36,9 +36,10 @@
             // 
             this.lab_tb.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
             this.lab_tb.ForeColor = System.Drawing.Color.Red;
-            this.lab_tb.Location = new System.Drawing.Point(42, 14);
+            this.lab_tb.Location = new System.Drawing.Point(27, 14);
             this.lab_tb.Name = "lab_tb";
             this.lab_tb.Size = new System.Drawing.Size(178, 20);
+            this.lab_tb.Text = "hshshs";
             // 
             // label2
             // 

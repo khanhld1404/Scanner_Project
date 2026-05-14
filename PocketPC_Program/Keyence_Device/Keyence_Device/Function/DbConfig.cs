@@ -27,7 +27,7 @@ namespace Keyence_Device.Function
         // đường dẫn đến file txt lưu thông tin phiên bản phần mềm hiện tại
         public static readonly string path_file_version = Path.Combine(_baseDir, "device_version.txt");
         // đường dẫn đến version mới nhất
-        public static readonly string server_file_version = "0";
+        public static readonly string server_file_version = "http://172.31.9.31/test_api/api/update/version";
         // đường dẫn đến nơi để tải các file về
         public static readonly string server_file = "";
         // Đường dẫn đến nơi để lưu trữ file tải
